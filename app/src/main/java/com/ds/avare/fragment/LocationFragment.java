@@ -41,10 +41,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ds.avare.ChartsDownloadActivity;
 import com.ds.avare.MainActivity;
 import com.ds.avare.R;
+import com.ds.avare.adapters.LocationLayersListAdapter;
 import com.ds.avare.animation.TwoButton;
 import com.ds.avare.animation.TwoButton.TwoClickListener;
 import com.ds.avare.flight.FlightStatusInterface;
@@ -110,6 +115,9 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
 
     private ImageButton mLayersButton;
     private ImageButton mChartsButton;
+    private Spinner mChartsButtonSpinner;
+    private Spinner mLayersButtonSpinner;
+    private ListView mLayersListView;
     private ImageButton mCenterButton;
     private ImageButton mDrawClearButton;
     private ImageButton mDrawButton;
@@ -123,6 +131,8 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
     private AppCompatSpinner mLayerSpinnerBar;
     private AppCompatSpinner mChartSpinnerNav;
     private AppCompatSpinner mLayerSpinnerNav;
+    private AppCompatSpinner mChartSpinnerButton;
+    private AppCompatSpinner mLayersSpinnerButton;
     private AppCompatCheckBox mTracksCheckBox;
     private AppCompatCheckBox mSimulationCheckBox;
 
@@ -403,7 +413,7 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
         mChartsButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mChartSpinnerNav.performClick();
+                mChartSpinnerButton.performClick();
             }
         });
 
@@ -412,7 +422,12 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
         mLayersButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLayerSpinnerNav.performClick();
+                RelativeLayout layersList = (RelativeLayout) v.getRootView().findViewById(R.id.location_preferences);
+                if( layersList.getVisibility() == View.VISIBLE) {
+                    layersList.setVisibility(View.INVISIBLE);
+                } else {
+                    layersList.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -548,6 +563,25 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
                 }
         );
 
+        mChartsButtonSpinner = (Spinner) view.findViewById(R.id.location_button_charts_spin);
+        mChartSpinnerButton = (AppCompatSpinner) mChartsButtonSpinner;
+        setupChartSpinner(
+                mChartSpinnerButton,
+                Integer.valueOf(mPref.getChartType()),
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        mPref.setChartType(String.valueOf(position));
+                        mChartSpinnerBar.setSelection(position, false);
+                        mLocationView.forceReload();
+                        closeDrawer();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) { }
+                }
+        );
+
         MenuItem layerMenuItem = ((MainActivity) getActivity()).getNavigationMenu().findItem(R.id.nav_action_map_layer);
         mLayerSpinnerNav = (AppCompatSpinner) MenuItemCompat.getActionView(layerMenuItem);
         setupLayerSpinner(
@@ -566,6 +600,39 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
                 }
         );
         mLocationView.setLayerType(mPref.getLayerType());
+
+//        mLayersButtonSpinner = (Spinner) view.findViewById(R.id.location_button_layers_spin);
+//        mLayersSpinnerButton = (AppCompatSpinner) mLayersButtonSpinner;
+//        setupLayerSpinner(
+//                mLayersSpinnerButton,
+//                new AdapterView.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                        mPref.setLayerType(LAYER_TYPES[position]);
+//                        mLocationView.setLayerType(mPref.getLayerType());
+//                        mLayerSpinnerBar.setSelection(position, false);
+//                        closeDrawer();
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected(AdapterView<?> parent) { }
+//                }
+//        );
+
+        LocationLayersListAdapter adapter = new LocationLayersListAdapter(this.getContext(), getResources().getStringArray(R.array.LayerType));
+        mLayersListView = (ListView) view.findViewById(R.id.location_layers_list);
+        mLayersListView.setAdapter(adapter);
+//        mLayersListView.getBackground().setAlpha(255);
+
+        mLayersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            private final String[] values = getContext().getResources().getStringArray(R.array.LayerType);
+
+            @Override
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+//                Toast.makeText(getContext(), values[position] + " selected", Toast.LENGTH_LONG).show();
+            }
+        });
+
 
         MenuItem tracksMenuItem = ((MainActivity) getActivity()).getNavigationMenu().findItem(R.id.nav_action_map_tracks);
         mTracksCheckBox = (AppCompatCheckBox) MenuItemCompat.getActionView(tracksMenuItem);

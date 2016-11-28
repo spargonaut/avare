@@ -156,7 +156,7 @@ public class Preferences {
             val = "0";
         }
         if (val.equals("0")) {
-            return "http://avare.stratux.me/old/";
+            return "http://www.apps4av.org/new/";
         }
         return ("");
     }

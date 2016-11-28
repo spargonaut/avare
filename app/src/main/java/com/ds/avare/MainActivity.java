@@ -38,6 +38,7 @@ import android.widget.TextView;
 
 import com.ds.avare.fragment.AirportFragment;
 import com.ds.avare.fragment.LocationFragment;
+import com.ds.avare.fragment.LocationPreferencesFragment;
 import com.ds.avare.fragment.PlatesFragment;
 import com.ds.avare.fragment.StorageServiceGpsListenerFragment;
 import com.ds.avare.navhandler.AfdNavigationItemSelectedHandler;
@@ -88,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements
     private AlertDialog mWarnDialog;
 
     private Map<Integer, Integer> mTabIndexToNavItemIdMap = new HashMap<>();
+
+    private LocationPreferencesFragment mLocPrefsFragment;
 
     // Tab panels that can display at the bottom of the screen. Each one
     // except tabMain is configurable on or off by the user.
@@ -179,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements
         navHeaderText.setText(mPref.getRegisteredEmail());
 
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
+
+        mLocPrefsFragment = new LocationPreferencesFragment();
 
         if(mPref.showTips()) {
             mWarnDialog = new AlertDialog.Builder(this).create();
