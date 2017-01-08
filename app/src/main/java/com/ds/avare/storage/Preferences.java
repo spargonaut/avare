@@ -820,8 +820,40 @@ public class Preferences {
     /**
      * @return
      */
+    public boolean showNexrad() {
+        return mPref.getBoolean(mContext.getString(R.string.layerNexrad), false);
+    }
+
+    /**
+     * @return
+     */
+    public boolean showMetars() {
+        return mPref.getBoolean(mContext.getString(R.string.layerMetars), false);
+    }
+
+    /**
+     * @return
+     */
+    public boolean showPlate() {
+        return mPref.getBoolean(mContext.getString(R.string.layerPlate), false);
+    }
+
+    /**
+     * @return
+     */
     public boolean showTips() {
         return mPref.getBoolean(mContext.getString(R.string.prefTip), false);
+    }
+
+
+    public void setShowMetars(boolean val) {
+        mPref.edit().putBoolean(mContext.getString(R.string.layerMetars), val).apply();
+    }
+    public void setShowNexrad(boolean val) {
+        mPref.edit().putBoolean(mContext.getString(R.string.layerNexrad), val).apply();
+    }
+    public void setShowPlate(boolean val) {
+        mPref.edit().putBoolean(mContext.getString(R.string.layerPlate), val).apply();
     }
 
     /**

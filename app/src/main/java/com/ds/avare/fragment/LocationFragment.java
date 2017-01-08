@@ -583,58 +583,6 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
                 }
         );
 
-        MenuItem layerMenuItem = ((MainActivity) getActivity()).getNavigationMenu().findItem(R.id.nav_action_map_layer);
-        mLayerSpinnerNav = (AppCompatSpinner) MenuItemCompat.getActionView(layerMenuItem);
-        setupLayerSpinner(
-                mLayerSpinnerNav,
-                new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        mPref.setLayerType(LAYER_TYPES[position]);
-                        mLocationView.setLayerType(mPref.getLayerType());
-                        mLayerSpinnerBar.setSelection(position, false);
-                        closeDrawer();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) { }
-                }
-        );
-        mLocationView.setLayerType(mPref.getLayerType());
-
-//        mLayersButtonSpinner = (Spinner) view.findViewById(R.id.location_button_layers_spin);
-//        mLayersSpinnerButton = (AppCompatSpinner) mLayersButtonSpinner;
-//        setupLayerSpinner(
-//                mLayersSpinnerButton,
-//                new AdapterView.OnItemSelectedListener() {
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                        mPref.setLayerType(LAYER_TYPES[position]);
-//                        mLocationView.setLayerType(mPref.getLayerType());
-//                        mLayerSpinnerBar.setSelection(position, false);
-//                        closeDrawer();
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent) { }
-//                }
-//        );
-
-        LocationLayersListAdapter adapter = new LocationLayersListAdapter(this.getContext(), getResources().getStringArray(R.array.LayerType));
-        mLayersListView = (ListView) view.findViewById(R.id.location_layers_list);
-        mLayersListView.setAdapter(adapter);
-//        mLayersListView.getBackground().setAlpha(255);
-
-        mLayersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            private final String[] values = getContext().getResources().getStringArray(R.array.LayerType);
-
-            @Override
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
-//                Toast.makeText(getContext(), values[position] + " selected", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
         MenuItem tracksMenuItem = ((MainActivity) getActivity()).getNavigationMenu().findItem(R.id.nav_action_map_tracks);
         mTracksCheckBox = (AppCompatCheckBox) MenuItemCompat.getActionView(tracksMenuItem);
         mTracksCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -1221,27 +1169,15 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
                 }
         );
 
-        MenuItem layerMenuItem = menu.findItem(R.id.action_layer);
-        mLayerSpinnerBar = (AppCompatSpinner) MenuItemCompat.getActionView(layerMenuItem);
-        setupLayerSpinner(
-                mLayerSpinnerBar,
-                new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        mPref.setLayerType(LAYER_TYPES[position]);
-                        mLocationView.setLayerType(mPref.getLayerType());
-                        mLayerSpinnerNav.setSelection(position, false);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) { }
-                }
-        );
     }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.nav_action_map_tracks) {
+        if (item.getItemId() == R.id.nav_action_map_layer) {
+            closeDrawer();
+            RelativeLayout layersList = (RelativeLayout) mLocationView.getRootView().findViewById(R.id.location_preferences);
+            layersList.setVisibility(View.VISIBLE);
+        } else if (item.getItemId() == R.id.nav_action_map_tracks) {
             mTracksCheckBox.setChecked(!mTracksCheckBox.isChecked());
             closeDrawer();
         } else if (item.getItemId() == R.id.nav_action_map_simulation) {

@@ -296,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements
             } else if (item.getGroupId() == R.id.nav_menu_map_actions_group
                     || item.getGroupId() == R.id.nav_menu_threed_actions_group) {
                 // delegate to fragment onNavigationItemSelected
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 StorageServiceGpsListenerFragment fragment = getVisibleFragment();
                 if (fragment != null) {
                     return fragment.onNavigationItemSelected(item);

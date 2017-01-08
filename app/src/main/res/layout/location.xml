@@ -85,16 +85,6 @@ Redistribution and use in source and binary forms, with or without modification,
             android:layout_toLeftOf="@+id/location_button_center"
             android:padding="20dp" />
 
-        <ListView
-            android:id="@+id/location_layers_list"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:alpha=".75"
-            android:layout_above="@+id/location_button_layers"
-            android:layout_alignLeft="@id/location_button_layers"
-            android:background="#FF444444"
-            android:visibility="invisible" />
-
         <RelativeLayout
             android:id="@+id/location_preferences"
             android:layout_above="@+id/location_button_layers"

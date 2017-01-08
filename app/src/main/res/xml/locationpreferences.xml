@@ -3,6 +3,27 @@
     <CheckBoxPreference
         android:textColor="#FFFFFF"
         android:defaultValue="false"
+        android:key="@string/layerMetars"
+        android:summary="@string/layerMetarsSummary"
+        android:title="@string/layerMetarsLabel"
+        android:layout="@layout/custom_preference" />
+    <CheckBoxPreference
+        android:textColor="#FFFFFF"
+        android:defaultValue="false"
+        android:key="@string/layerNexrad"
+        android:summary="@string/layerNexradSummary"
+        android:title="@string/layerNexradLabel"
+        android:layout="@layout/custom_preference" />
+    <CheckBoxPreference
+        android:textColor="#FFFFFF"
+        android:defaultValue="false"
+        android:key="@string/layerPlate"
+        android:summary="@string/layerPlateSummary"
+        android:title="@string/layerPlateLabel"
+        android:layout="@layout/custom_preference" />
+    <CheckBoxPreference
+        android:textColor="#FFFFFF"
+        android:defaultValue="false"
         android:key="@string/TFRShading"
         android:title="@string/TFRShadingLabel"
         android:layout="@layout/custom_preference"/>
