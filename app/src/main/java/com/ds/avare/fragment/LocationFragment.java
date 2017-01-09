@@ -24,7 +24,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,21 +36,16 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.ds.avare.ChartsDownloadActivity;
 import com.ds.avare.MainActivity;
 import com.ds.avare.R;
-import com.ds.avare.adapters.LocationLayersListAdapter;
-import com.ds.avare.animation.TwoButton;
-import com.ds.avare.animation.TwoButton.TwoClickListener;
 import com.ds.avare.flight.FlightStatusInterface;
 import com.ds.avare.gps.Gps;
 import com.ds.avare.gps.GpsParams;
@@ -73,7 +67,6 @@ import com.ds.avare.webinfc.WebAppMapInterface;
 
 import java.io.File;
 import java.net.URI;
-import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -117,8 +110,6 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
     private ImageButton mLayersButton;
     private ImageButton mChartsButton;
     private Spinner mChartsButtonSpinner;
-    private Spinner mLayersButtonSpinner;
-    private ListView mLayersListView;
     private ImageButton mCenterButton;
     private ImageButton mDrawClearButton;
     private ImageButton mDrawButton;
@@ -129,11 +120,8 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
     private WebAppMapInterface mInfc;
 
     private AppCompatSpinner mChartSpinnerBar;
-    private AppCompatSpinner mLayerSpinnerBar;
     private AppCompatSpinner mChartSpinnerNav;
-    private AppCompatSpinner mLayerSpinnerNav;
     private AppCompatSpinner mChartSpinnerButton;
-    private AppCompatSpinner mLayersSpinnerButton;
     private AppCompatCheckBox mTracksCheckBox;
     private AppCompatCheckBox mSimulationCheckBox;
 
@@ -842,7 +830,6 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
 
     private void setChartsAndLayersButtonVisibility() {
         mChartsButton.setVisibility(mPref.getHideToolbar() ? View.VISIBLE : View.INVISIBLE);
-        mLayersButton.setVisibility(mPref.getHideToolbar() ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void setDrawButtonVisibility() {
@@ -1173,11 +1160,7 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.nav_action_map_layer) {
-            closeDrawer();
-            RelativeLayout layersList = (RelativeLayout) mLocationView.getRootView().findViewById(R.id.location_preferences);
-            layersList.setVisibility(View.VISIBLE);
-        } else if (item.getItemId() == R.id.nav_action_map_tracks) {
+        if (item.getItemId() == R.id.nav_action_map_tracks) {
             mTracksCheckBox.setChecked(!mTracksCheckBox.isChecked());
             closeDrawer();
         } else if (item.getItemId() == R.id.nav_action_map_simulation) {
@@ -1186,15 +1169,6 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
         }
 
         return false;
-    }
-
-    private void setupLayerSpinner(AppCompatSpinner spinner, AdapterView.OnItemSelectedListener selectedListener) {
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, LAYER_TYPES);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-        spinner.setSelection(Arrays.binarySearch(LAYER_TYPES, mPref.getLayerType()), false);
-        spinner.setOnItemSelectedListener(selectedListener);
     }
 
     private void startTracks() {
