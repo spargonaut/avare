@@ -57,6 +57,7 @@ import com.ds.avare.shapes.ShapeFileShape;
 import com.ds.avare.shapes.TFRShape;
 import com.ds.avare.shapes.TileMap;
 import com.ds.avare.storage.DataSource;
+import com.ds.avare.place.Obstacle;
 import com.ds.avare.userDefinedWaypoints.UDWMgr;
 import com.ds.avare.utils.BitmapHolder;
 import com.ds.avare.utils.InfoLines;
@@ -120,6 +121,7 @@ public class StorageService extends Service {
     
     private String mLastPlateAirport;
     private int mLastPlateIndex;
+    private LinkedList<Obstacle> mObstacles;
 
     private float[] mMatrix;
 
@@ -192,8 +194,13 @@ public class StorageService extends Service {
     /*
      * A diagram bitmap
      */
-    private BitmapHolder mDiagramBitmap;                            
-        
+    private BitmapHolder mAfdDiagramBitmap;
+
+    /*
+     * A
+     */
+    private BitmapHolder mPlateDiagramBitmap;
+
     /**
      * Local binding as this runs in same thread
      */
@@ -346,7 +353,8 @@ public class StorageService extends Service {
         mIsGpsOn = false;
         mGpsCallbacks = new LinkedList<GpsInterface>();
         mOrientationCallbacks = new LinkedList<OrientationInterface>();
-        mDiagramBitmap = null;
+        mAfdDiagramBitmap = null;
+        mPlateDiagramBitmap = null;
         mAfdIndex = 0;
         mOverrideListName = null;
         mTrafficCache = new TrafficCache();
@@ -423,10 +431,7 @@ public class StorageService extends Service {
         mFuelTimer = new FuelTimer(getApplicationContext());
         mUpTimer = new UpTimer();
 
-        /*
-         * Monitor TFR every hour.
-         */
-        mTimer.scheduleAtFixedRate(gpsTime, 0, 60 * 1000);
+        mTimer.scheduleAtFixedRate(gpsTime, 1000, 1000);
         
         /*
          * Start GPS, and call all activities registered to listen to GPS
@@ -605,9 +610,13 @@ public class StorageService extends Service {
          */
         mTiles.recycleBitmaps();
 
-        if(null != mDiagramBitmap) {
-            mDiagramBitmap.recycle();
-            mDiagramBitmap = null;
+        if(null != mAfdDiagramBitmap) {
+            mAfdDiagramBitmap.recycle();
+            mAfdDiagramBitmap = null;
+        }
+        if(null != mPlateDiagramBitmap) {
+            mPlateDiagramBitmap.recycle();
+            mPlateDiagramBitmap = null;
         }
         mTiles = null;
         
@@ -847,19 +856,38 @@ public class StorageService extends Service {
      * 
      * @param name
      */
-    public void loadDiagram(String name) {
-        if(mDiagramBitmap != null) {
+    public void loadAfdDiagram(String name) {
+        if(mAfdDiagramBitmap != null) {
             /*
              * Clean old one first
              */
-            mDiagramBitmap.recycle();
-            mDiagramBitmap = null;
+            mAfdDiagramBitmap.recycle();
+            mAfdDiagramBitmap = null;
             System.gc();
         }
         if(null != name) {
-            mDiagramBitmap = new BitmapHolder(name);            
+            mAfdDiagramBitmap = new BitmapHolder(name);
         }
     }
+
+    /**
+     *
+     * @param name
+     */
+    public void loadPlateDiagram(String name) {
+        if(mPlateDiagramBitmap != null) {
+            /*
+             * Clean old one first
+             */
+            mPlateDiagramBitmap.recycle();
+            mPlateDiagramBitmap = null;
+            System.gc();
+        }
+        if(null != name) {
+            mPlateDiagramBitmap = new BitmapHolder(name);
+        }
+    }
+
 
     /**
      *
@@ -873,8 +901,16 @@ public class StorageService extends Service {
      * 
      * @return
      */
-    public BitmapHolder getDiagram() {
-       return mDiagramBitmap; 
+    public BitmapHolder getPlateDiagram() {
+       return mPlateDiagramBitmap;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public BitmapHolder getAfdDiagram() {
+        return mAfdDiagramBitmap;
     }
 
     /**
@@ -910,8 +946,11 @@ public class StorageService extends Service {
              */
             synchronized(this) {
                 mCounter++;
-                if((!mIsGpsOn) && (mGps != null) && (mCounter >= 2)) {
+                if((!mIsGpsOn) && (mGps != null) && (mCounter >= 2 * 60)) {
                     mGps.stop();
+                }
+                if(null != mGpsParams) {
+                    mObstacles = mImageDataSource.findObstacles(mGpsParams.getLongitude(), mGpsParams.getLatitude(), (int) mGpsParams.getAltitude());
                 }
             }
 
@@ -1256,4 +1295,8 @@ public class StorageService extends Service {
 	public DrawCapLines getCap() {
 		return mCap;
 	}
+
+    public LinkedList<Obstacle> getObstacles() {
+        return mObstacles;
+    }
 }

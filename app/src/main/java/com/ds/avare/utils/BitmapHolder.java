@@ -12,16 +12,19 @@ Redistribution and use in source and binary forms, with or without modification,
 
 package com.ds.avare.utils;
 
-import java.io.File;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Rect;
 
 import com.ds.avare.position.Origin;
 import com.ds.avare.storage.Preferences;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author zkhan
@@ -86,7 +89,6 @@ public class BitmapHolder {
 
     /**
      * @param
-     * Get bitmap from renderer
      */
     public BitmapHolder() {
         Bitmap.Config conf = Bitmap.Config.RGB_565;
@@ -104,7 +106,7 @@ public class BitmapHolder {
 
     /**
      * @param
-     * Get bitmap from renderer of type
+     *
      */
     public BitmapHolder(Bitmap.Config config) {
         try {
@@ -120,7 +122,7 @@ public class BitmapHolder {
     }
 
     /**
-     * @param name
+     *
      * Get bitmap from renderer
      */
     public BitmapHolder(int width, int height) {
@@ -158,6 +160,20 @@ public class BitmapHolder {
         }
         mTransform.setTranslate(x, y);
         mCanvas.drawBitmap(b.getBitmap(), mTransform, null);
+    }
+
+    /**
+     *
+     * @param b is bitmap to draw
+     */
+    public void drawInBitmap(BitmapHolder b, Rect src, Rect dst) {
+        if((null == b) || (null == mCanvas)) {
+            return;
+        }
+        if(null == b.getBitmap()) {
+            return;
+        }
+        mCanvas.drawBitmap(b.getBitmap(), src, dst, null);
     }
 
     /**
@@ -321,6 +337,44 @@ public class BitmapHolder {
     }
 
     /**
+     * @param name
+     * Get bitmap from a diagram / plate file
+     */
+    public BitmapHolder(String name, Bitmap.Config type, Rect r) {
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inPreferredConfig = type;
+        opt.inSampleSize = 1;
+
+        if(!(new File(name).exists())) {
+            mWidth = 0;
+            mHeight = 0;
+            mName = null;
+            return;
+        }
+
+
+        try {
+            BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(name, false);
+            mBitmap = decoder.decodeRegion(r, opt);
+        }
+        catch(OutOfMemoryError e) {
+        }
+        catch (IOException e) {
+        }
+        if(null != mBitmap) {
+            mWidth = mBitmap.getWidth();
+            mHeight = mBitmap.getHeight();
+            mName = name;
+        }
+        else {
+            mWidth = 0;
+            mHeight = 0;
+            mName = null;
+        }
+    }
+
+
+    /**
      * @param context
      * @param id
      * Get bitmap from resources
@@ -408,7 +462,7 @@ public class BitmapHolder {
     
     /**
      * 
-     * @param nothing in it?
+     * @param
      */
     public void setFound(boolean found) {
         mFound = found;
@@ -416,7 +470,7 @@ public class BitmapHolder {
     
     /**
      * 
-     * @param nothing in it?
+     * @param
      */
     public boolean getFound() {
         return mFound;

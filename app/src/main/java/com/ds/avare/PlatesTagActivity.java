@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.ds.avare.gps.GpsInterface;
 import com.ds.avare.message.NetworkHelper;
 import com.ds.avare.place.Destination;
+import com.ds.avare.place.DestinationFactory;
 import com.ds.avare.position.Coordinate;
 import com.ds.avare.position.PixelCoordinate;
 import com.ds.avare.position.Projection;
@@ -740,11 +741,11 @@ public class PlatesTagActivity extends AppCompatActivity implements Observer {
             /*
              * Get proc name
              */
-            if(null == mService.getDiagram()) {
+            if(null == mService.getPlateDiagram()) {
                 mTagged = false;
                 return;                
             }
-            mName = getNameFromPath(mService.getDiagram().getName());
+            mName = getNameFromPath(mService.getPlateDiagram().getName());
             if(mName != null) {
                 mAirport = mName.split("/")[0];
             }
@@ -753,14 +754,14 @@ public class PlatesTagActivity extends AppCompatActivity implements Observer {
                 return;
             }
             
-            mPlatesView.setBitmap(mService.getDiagram());
+            mPlatesView.setBitmap(mService.getPlateDiagram());
 
             
             /*
              * Find who this plate is for, so we can verify its sane.
              * By the time user is ready to tag, this should be found
              */
-            mDest = new Destination(mAirport, Destination.BASE, mPref, mService);
+            mDest = DestinationFactory.build(mService, mAirport, Destination.BASE);;
             mDest.addObserver(PlatesTagActivity.this);
             mDest.find();
             

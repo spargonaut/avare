@@ -31,6 +31,7 @@ import com.ds.avare.adapters.TypeValueAdapter;
 import com.ds.avare.place.Airport;
 import com.ds.avare.place.Awos;
 import com.ds.avare.place.Destination;
+import com.ds.avare.place.DestinationFactory;
 import com.ds.avare.place.Plan;
 import com.ds.avare.place.Runway;
 import com.ds.avare.storage.DataBaseHelper;
@@ -332,8 +333,13 @@ public class AirportFragment extends StorageServiceGpsListenerFragment implement
                 }
                 mViewButton.setText(mListViews.get(pos));
                 if(pos > 0) {
-                    mService.loadDiagram(afd[pos - 1] + Preferences.IMAGE_EXTENSION);
-                    mAfdView.setBitmap(mService.getDiagram());
+                    if(mService.getAfdDiagram() == null ||
+                            mService.getAfdDiagram().getName() == null ||
+                            (!mService.getAfdDiagram().getName().equals(afd[pos - 1] + Preferences.IMAGE_EXTENSION))) {
+                        mService.loadAfdDiagram(afd[pos - 1] + Preferences.IMAGE_EXTENSION);
+                    }
+
+                    mAfdView.setBitmap(mService.getAfdDiagram());
                     /*
                      * Show graphics
                      */
@@ -345,7 +351,7 @@ public class AirportFragment extends StorageServiceGpsListenerFragment implement
                     mAirportView.setVisibility(View.VISIBLE);
                     mAfdView.setVisibility(View.INVISIBLE);
                     mCenterButton.setVisibility(View.INVISIBLE);
-                    mService.loadDiagram(null);
+                    mService.loadAfdDiagram(null);
                     mAfdView.setBitmap(null);
                 }
 
@@ -420,7 +426,7 @@ public class AirportFragment extends StorageServiceGpsListenerFragment implement
             }
             else {
                 viewPos = 0;
-                mDestination = new Destination(airport, Destination.BASE, mPref, mService);
+                mDestination = DestinationFactory.build(mService, airport, Destination.BASE);
                 mService.setLastAfdDestination(mDestination);
                 mDestination.addObserver(AirportFragment.this);
                 showSnackbar(getString(R.string.Searching) + " " + mDestination.getID(), Snackbar.LENGTH_SHORT);
