@@ -377,6 +377,8 @@ public class LocationView extends View implements OnTouchListener {
 
         RelativeLayout layersList = (RelativeLayout) getRootView().findViewById(R.id.location_preferences);
         layersList.setVisibility(View.INVISIBLE);
+        RelativeLayout settingsList = (RelativeLayout) getRootView().findViewById(R.id.location_settings);
+        settingsList.setVisibility(View.INVISIBLE);
 
         boolean bPassToGestureDetector = true;
         

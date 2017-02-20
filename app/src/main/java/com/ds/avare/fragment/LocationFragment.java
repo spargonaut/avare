@@ -110,6 +110,7 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
     private AlertDialog mGpsWarnDialog;
 
     private ImageButton mLayersButton;
+    private ImageButton mSettingsButton;
     private ImageButton mChartsButton;
     private Spinner mChartsButtonSpinner;
     private ImageButton mCenterButton;
@@ -411,6 +412,25 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
                     layersList.setVisibility(View.INVISIBLE);
                 } else {
                     layersList.setVisibility(View.VISIBLE);
+                    RelativeLayout settingsList = (RelativeLayout) v.getRootView().findViewById(R.id.location_settings);
+                    settingsList.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+
+        mSettingsButton = (ImageButton) view.findViewById(R.id.location_button_settings);
+        mSettingsButton.getBackground().setAlpha(255);
+        mSettingsButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RelativeLayout settingsList = (RelativeLayout) v.getRootView().findViewById(R.id.location_settings);
+                if( settingsList.getVisibility() == View.VISIBLE) {
+                    settingsList.setVisibility(View.INVISIBLE);
+                } else {
+                    settingsList.setVisibility(View.VISIBLE);
+                    RelativeLayout layersList = (RelativeLayout) v.getRootView().findViewById(R.id.location_preferences);
+                    layersList.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -840,6 +860,7 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
         );
         mLayersButton.getBackground().setColorFilter(0xFF444444, PorterDuff.Mode.MULTIPLY);
         mChartsButton.getBackground().setColorFilter(0xFF444444, PorterDuff.Mode.MULTIPLY);
+        mSettingsButton.getBackground().setColorFilter(0xFF444444, PorterDuff.Mode.MULTIPLY);
         mDrawClearButton.getBackground().setColorFilter(0xFF444444, PorterDuff.Mode.MULTIPLY);
         mDrawButton.getBackground().setColorFilter(0xFF444444, PorterDuff.Mode.MULTIPLY);
     }

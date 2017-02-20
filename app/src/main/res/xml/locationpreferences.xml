@@ -14,7 +14,15 @@
         android:summary="@string/layerNexradSummary"
         android:title="@string/layerNexradLabel"
         android:layout="@layout/custom_preference" />
-    <CheckBoxPreference
+    <com.ds.avare.utils.ListPreferenceWithSummary
+        android:defaultValue="ALL"
+        android:entries="@array/AirSig"
+        android:entryValues="@array/AirSig"
+        android:key="@string/AirSigType"
+        android:summary="@string/AirSigTypeSummary"
+        android:title="@string/AirSigTypeLabel"
+        android:layout="@layout/custom_preference"/>
+        <CheckBoxPreference
         android:textColor="#FFFFFF"
         android:defaultValue="false"
         android:key="@string/layerPlate"
@@ -29,32 +37,6 @@
         android:layout="@layout/custom_preference"/>
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="@string/ADSBWeather"
-        android:summary="@string/ADSBWeatherSummary"
-        android:title="@string/ADSBWeatherLabel"
-        android:layout="@layout/custom_preference"/>
-    <com.ds.avare.utils.ListPreferenceWithSummary
-        android:defaultValue="ALL"
-        android:entries="@array/AirSig"
-        android:entryValues="@array/AirSig"
-        android:key="@string/AirSigType"
-        android:summary="@string/AirSigTypeSummary"
-        android:title="@string/AirSigTypeLabel"
-        android:layout="@layout/custom_preference"/>
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/ShowLabelMETARS"
-        android:summary="@string/ShowLabelMETARSSummary"
-        android:title="@string/ShowLabelMETARS"
-        android:layout="@layout/custom_preference"/>
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/ShowWindBarbs"
-        android:summary="@string/ShowWindBarbsSummary"
-        android:title="@string/ShowWindBarbs"
-        android:layout="@layout/custom_preference"/>
-    <CheckBoxPreference
-        android:defaultValue="false"
         android:key="@string/CAPGrid"
         android:summary="@string/CAPGridSummary"
         android:title="@string/CAPGridLabel"
@@ -64,5 +46,11 @@
         android:key="@string/Runways"
         android:summary="@string/RunwaysSummary"
         android:title="@string/RunwaysLabel"
+        android:layout="@layout/custom_preference"/>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/Obstacles"
+        android:summary="@string/ObstaclesSummary"
+        android:title="@string/ObstaclesLabel"
         android:layout="@layout/custom_preference"/>
 </PreferenceScreen>
