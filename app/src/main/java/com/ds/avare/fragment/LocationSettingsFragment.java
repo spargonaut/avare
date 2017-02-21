@@ -15,7 +15,7 @@ public class LocationSettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.locationsettings, rootKey);
+        setPreferencesFromResource(R.xml.location_settings, rootKey);
     }
 
 }

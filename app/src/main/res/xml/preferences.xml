@@ -523,16 +523,6 @@ authors: zkhan, jlmcgraw
         android:icon="@android:drawable/ic_menu_crop" >
 
         <CheckBoxPreference
-            android:key="@string/b1map"
-            android:summary="@string/b1map"
-            android:title="@string/b1map" />
-
-        <CheckBoxPreference
-            android:key="@string/b1plate"
-            android:summary="@string/b1plate"
-            android:title="@string/b1plate" />
-
-        <CheckBoxPreference
             android:key="@string/b2plate"
             android:summary="@string/b2plate"
             android:title="@string/b2plate" />

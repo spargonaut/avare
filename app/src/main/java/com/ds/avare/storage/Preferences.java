@@ -1262,17 +1262,11 @@ public class Preferences {
         }
     }
 
-    public boolean removeB1Plate() {
-        return mPref.getBoolean(mContext.getString(R.string.b1plate), false);
-    }
     public boolean removeB2Plate() {
         return mPref.getBoolean(mContext.getString(R.string.b2plate), false);
     }
     public boolean removeB3Plate() {
         return mPref.getBoolean(mContext.getString(R.string.b3plate), false);
-    }
-    public boolean removeB1Map() {
-        return mPref.getBoolean(mContext.getString(R.string.b1map), false);
     }
 
     public int getRateAskCount() {

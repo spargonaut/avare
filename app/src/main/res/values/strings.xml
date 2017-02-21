@@ -578,10 +578,8 @@ Redistribution and use in source and binary forms, with or without modification,
     <string name="RegisterActivityPreferenceKey">REGISTER_ACTIVITY_PREFERENCE_KEY</string>
     <string name="SyncActivityPreferenceKey">SYNC_ACTIVITY_PREFERENCE_KEY</string>
 
-    <string name="b1map">Remove Button 1 in Map (Restart Required)</string>
-    <string name="b1plate">Remove Button 1 in Plate (Restart Required)</string>
-    <string name="b2plate">Remove Button 2 in Plate (Restart Required)</string>
-    <string name="b3plate">Remove Button 3 in Plate (Restart Required)</string>
+    <string name="b2plate">Remove Timer Button in Plate</string>
+    <string name="b3plate">Remove Tag Button in Plate</string>
     <string name="UIConfiguration">UI Configuration</string>
 
     <string name="ShowLabelMETARS">&quot;Use Label for METARs&quot;</string>

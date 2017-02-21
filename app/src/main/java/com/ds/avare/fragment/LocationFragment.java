@@ -13,6 +13,7 @@ package com.ds.avare.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.PorterDuff;
 import android.location.Location;
 import android.net.Uri;
@@ -60,6 +61,7 @@ import com.ds.avare.storage.StringPreference;
 import com.ds.avare.touch.GestureInterface;
 import com.ds.avare.touch.LongTouchDestination;
 import com.ds.avare.utils.DecoratedAlertDialogBuilder;
+import com.ds.avare.utils.Drawing;
 import com.ds.avare.utils.GenericCallback;
 import com.ds.avare.utils.Helper;
 import com.ds.avare.utils.InfoLines.InfoLineFieldLoc;
@@ -491,11 +493,15 @@ public class LocationFragment extends StorageServiceGpsListenerFragment implemen
                     mLocationView.setDraw(true);
                     mTouchMode = com.ds.avare.touch.Constants.TouchMode.DRAW_MODE;
                     mDrawClearButton.setVisibility(View.VISIBLE);
+                    mDrawButton.setColorFilter(new ColorMatrixColorFilter(Drawing.NEGATIVE));
+                    mDrawButton.getBackground().setColorFilter(0xFFBBBBBB, PorterDuff.Mode.MULTIPLY);
                 }
                 else {
                     mLocationView.setDraw(false);
                     mTouchMode = com.ds.avare.touch.Constants.TouchMode.PAN_MODE;
                     mDrawClearButton.setVisibility(View.INVISIBLE);
+                    mDrawButton.clearColorFilter();
+                    mDrawButton.getBackground().setColorFilter(0xFF444444, PorterDuff.Mode.MULTIPLY);
                 }
             }
         });

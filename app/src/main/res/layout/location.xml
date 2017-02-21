@@ -147,8 +147,10 @@ Redistribution and use in source and binary forms, with or without modification,
             android:layout_height="wrap_content"
             android:alpha=".75"
             android:src="@drawable/ic_gesture_white_24dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true" />
+            android:layout_above="@+id/empty_view"
+            android:layout_toRightOf="@+id/location_button_settings"
+            android:layout_marginRight="20dp"
+            android:padding="20dp" />
 
         <ImageButton
             android:id="@+id/location_button_draw_clear"
@@ -157,8 +159,9 @@ Redistribution and use in source and binary forms, with or without modification,
             android:layout_height="wrap_content"
             android:alpha=".75"
             android:src="@drawable/ic_clear_white_24dp"
-            android:layout_above="@+id/location_button_draw"
-            android:layout_alignParentRight="true" />
+            android:layout_above="@+id/empty_view"
+            android:layout_toRightOf="@+id/location_button_draw"
+            android:padding="20dp" />
 
         <View
             android:id = "@+id/empty_view"
