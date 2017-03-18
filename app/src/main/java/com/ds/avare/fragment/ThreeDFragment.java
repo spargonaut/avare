@@ -81,8 +81,6 @@ public class ThreeDFragment extends StorageServiceGpsListenerFragment {
     /**
      * For performing periodic activities.
      */
-    private Timer mTimer;
-    private UpdateTask mTimerTask;
     private Location mLocation;
     private long mTime;
 
@@ -245,17 +243,12 @@ public class ThreeDFragment extends StorageServiceGpsListenerFragment {
                                                 mTempBitmap.recycle();
                                             }
                                             mTempBitmap = new BitmapHolder(SubTile.DIM, SubTile.DIM);
-<<<<<<< HEAD
-                                            mAreaMapper.getElevationTile().load(mTempBitmap, mPref.mapsFolder());
-                                            mVertices = Map.genTerrainFromBitmap(mTempBitmap.getBitmap());
-=======
                                             if(!mAreaMapper.getElevationTile().load(mTempBitmap, mPref.mapsFolder())) {
                                                 mVertices = null;
                                             }
                                             else {
                                                 mVertices = Map.genTerrainFromBitmap(mTempBitmap.getBitmap());
                                             }
->>>>>>> upstream_merge_7.6.8
                                             // load tiles for map/texture
                                             if(mPref.getChartType3D().equals("6")) {
                                                 // Show palette when elevation is chosen for height guidance
@@ -264,13 +257,9 @@ public class ThreeDFragment extends StorageServiceGpsListenerFragment {
                                                 mRenderer.setAltitude((float)Helper.findPixelFromElevation((float)mAreaMapper.getGpsParams().getAltitude()));
                                             }
                                             else {
-<<<<<<< HEAD
-                                                mAreaMapper.getMapTile().load(mTempBitmap, mPref.mapsFolder());
-=======
                                                 if(!mAreaMapper.getMapTile().load(mTempBitmap, mPref.mapsFolder())) {
                                                     mTempBitmap.recycle();
                                                 }
->>>>>>> upstream_merge_7.6.8
                                                 mRenderer.setAltitude(256); // this tells shader to skip palette for texture
                                             }
                                             return (Float)mAreaMapper.getTerrainRatio();
@@ -470,7 +459,6 @@ public class ThreeDFragment extends StorageServiceGpsListenerFragment {
         if (mRenderer != null) {
             mGlSurfaceView.onPause();
         }
-        mTimer.cancel();
     }
 
     @Override
