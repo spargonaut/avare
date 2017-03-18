@@ -114,7 +114,6 @@ public class PlatesFragment extends StorageServiceGpsListenerFragment implements
             return(mMatrix);
         }
 
-
         if(mService != null && mService.getPlateDiagram() != null && mService.getPlateDiagram().getName() != null) {
             
             /*
